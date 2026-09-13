@@ -60,7 +60,7 @@
 
     .chart-header {
         display: grid;
-        grid-template-columns: 260px 1fr;
+        grid-template-columns: 260px minmax(0, 1fr);
         border-bottom: 1px solid #e5e7eb;
         background: #fafafa;
     }
@@ -88,7 +88,7 @@
 
     .chart-row {
         display: grid;
-        grid-template-columns: 260px 1fr;
+        grid-template-columns: 260px minmax(0, 1fr);
         min-height: 70px;
         border-bottom: 1px solid #eef0f4;
     }
@@ -194,7 +194,7 @@
 
     .bottom-axis {
         display: grid;
-        grid-template-columns: 260px 1fr;
+        grid-template-columns: 260px minmax(0, 1fr);
         background: #f9fafb;
         border-top: 1px solid #e5e7eb;
     }
@@ -344,7 +344,7 @@
     .chart-header,
     .chart-row,
     .bottom-axis {
-        grid-template-columns: 210px 1fr !important;
+        grid-template-columns: 210px minmax(0, 1fr) !important;
     }
 
 
@@ -442,10 +442,30 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 #activity-list { max-height:340px; overflow:auto; }
 #status { font-size:14px; color:#4b5563; }
 .empty { padding:24px; }
-.bar { cursor:default; }
+.bar-amount { position:absolute; top:17px; min-height:36px; display:flex; align-items:center; justify-content:flex-start; text-align:left; padding:0 6px; font-size:12px; font-weight:600; overflow-wrap:anywhere; }
+.bar-amount-below { top:56px; width:140px; max-width:100%; min-height:24px; }
+.has-amount-below { min-height:86px; }
+.chart-row { cursor:pointer; }
+.chart-row:focus-visible { outline:3px solid #2563eb; outline-offset:-3px; }
+.chart-row:hover { background:#eff6ff; }
+.bar { cursor:pointer; }
+.inline-editor { grid-column:1 / -1; padding:16px 22px; margin:0; cursor:default; background:#eff6ff; }
+.inline-editor input { max-width:220px; }
+.inline-editor button { padding:9px 14px; border:1px solid #d1d5db; border-radius:6px; }
+.inline-error { width:100%; color:#b91c1c; margin:0; }
+.editing > .activity-info, .editing > .timeline { display:none; }
+.edit-hint { font-size:13px; color:#6b7280; }
+@media print {
+    .inline-editor, .new-activity-row { display:none !important; }
+    .editing > .activity-info { display:flex; }
+    .editing > .timeline { display:grid; }
+}
 @media print {
     .page > :not(.chart-card) { display:none !important; }
     .chart-header, .chart-row, .bottom-axis { grid-template-columns:170px minmax(0, 1fr) !important; }
+    .bar-amount { top:9px; min-height:28px; font-size:8px; }
+    .bar-amount-below { top:39px; min-height:18px; width:100px; }
+    .has-amount-below { min-height:61px; }
     .month, .bottom-month { overflow-wrap:anywhere; }
 }
 </style>
@@ -466,19 +486,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
         <button type="submit" class="print-btn">Apply range</button>
     </form>
     <p id="status" role="status" aria-live="polite"></p>
-    <details class="editor" id="editor">
-        <summary>Add or edit activities</summary>
-        <form id="activity-form" class="controls">
-            <label>Activity<input id="activity-name" required maxlength="120"></label>
-            <label>Sub-activity<input id="sub-activity" required maxlength="200"></label>
-            <label>Start month<input id="activity-start" type="month" required min="0001-01" max="9999-12"></label>
-            <label>End month<input id="activity-end" type="month" required min="0001-01" max="9999-12"></label>
-            <label>Color<select id="activity-color"><option>blue</option><option>green</option><option>purple</option><option>orange</option><option>pink</option><option>cyan</option></select></label>
-            <button class="print-btn" type="submit" id="save-activity">Add activity</button>
-            <button type="button" id="cancel-edit">Clear</button>
-        </form>
-        <div id="activity-list"></div>
-    </details>
+    <p class="edit-hint">Click an activity row to edit its details. Save changes or press Escape to cancel.</p>
+    <button id="add-activity" class="print-btn" type="button">Add activity</button>
     <div class="print-actions">
         <button id="print-button" class="print-btn">
             Print Table
