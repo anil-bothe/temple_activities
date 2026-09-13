@@ -329,6 +329,7 @@ let state = {
     }))
 };
 let editingId = null;
+let suppressRowClickUntil = 0;
 let storageAvailable = true;
 let storageWarning = '';
 try {
@@ -416,6 +417,7 @@ function renderChart() {
         bar.title = `${item.subActivity}: ${monthLabel(item.start)} – ${monthLabel(item.end)}`;
         bar.style.left = `calc(${left / count * 100}% + 6px)`;
         bar.style.width = `calc(${span / count * 100}% - 12px)`;
+        attachRangeHandles(bar, timeline, row, item, count);
         timeline.append(bar);
         if (item.amount !== "" && item.amount != null) {
             const amount = element('div', 'bar-amount', `Rs. ${item.amount}`);
@@ -435,7 +437,7 @@ function renderChart() {
         row.tabIndex = 0;
         row.setAttribute('aria-label', `Edit ${item.activity} / ${item.subActivity}`);
         const edit = () => {
-            if (editingId !== null) return;
+            if (editingId !== null || Date.now() < suppressRowClickUntil) return;
             editingId = item.id;
             renderInlineEditor(row, item);
         };
@@ -451,6 +453,76 @@ function renderChart() {
     if (!visible.length) chart.append(element('div', 'empty', 'No activities scheduled in this range.'));
     axis('bottom-axis', 'Timeline (inclusive months)', 'bottom-months', 'bottom-month');
     notice(`${visible.length} of ${state.activities.length} activities shown. Data is saved in this browser.`);
+}
+function resizeMonth(item, side, value) {
+    return side === 'start'
+        ? Math.max(state.start, Math.min(value, item.end, state.end))
+        : Math.min(state.end, Math.max(value, item.start, state.start));
+}
+function attachRangeHandles(bar, timeline, row, item, count) {
+    for (const side of ['start', 'end']) {
+        // A clipped edge is not the activity's actual start or end.
+        if (item[side] < state.start || item[side] > state.end) continue;
+        const handle = element('button', `range-handle range-handle-${side}`);
+        handle.type = 'button';
+        handle.title = `Drag ${side} month, or use Left/Right arrow keys`;
+        handle.setAttribute('aria-label', `${item.subActivity}: ${side} ${monthLabel(item[side])}. Use arrow keys to change by one month.`);
+        handle.addEventListener('click', event => event.stopPropagation());
+        let drag = null;
+        function preview(value) {
+            const start = Math.max(side === 'start' ? value : item.start, state.start);
+            const end = Math.min(side === 'end' ? value : item.end, state.end);
+            bar.style.left = `calc(${(start - state.start) / count * 100}% + 6px)`;
+            bar.style.width = `calc(${(end - start + 1) / count * 100}% - 12px)`;
+            notice(`${item.subActivity}: ${monthLabel(side === 'start' ? value : item.start)} – ${monthLabel(side === 'end' ? value : item.end)}`);
+        }
+        function finish(commit) {
+            if (!drag) return;
+            const current = drag;
+            drag = null;
+            if (handle.hasPointerCapture(current.pointerId)) handle.releasePointerCapture(current.pointerId);
+            suppressRowClickUntil = Date.now() + 300;
+            if (commit && current.value !== item[side]) {
+                item[side] = current.value;
+                persist();
+            }
+            renderChart();
+        }
+        handle.addEventListener('pointerdown', event => {
+            event.stopPropagation();
+            if (event.button !== 0 || editingId !== null || drag) return;
+            event.preventDefault();
+            drag = {pointerId: event.pointerId, x: event.clientX, value: item[side], monthWidth: timeline.getBoundingClientRect().width / count};
+            handle.setPointerCapture(event.pointerId);
+            handle.focus();
+            row.classList.add('resizing');
+        });
+        function update(event) {
+            if (!drag || event.pointerId !== drag.pointerId) return;
+            const steps = Math.round((event.clientX - drag.x) / drag.monthWidth);
+            drag.value = resizeMonth(item, side, item[side] + steps);
+            preview(drag.value);
+        }
+        handle.addEventListener('pointermove', update);
+        handle.addEventListener('pointerup', event => {
+            if (!drag || event.pointerId !== drag.pointerId) return;
+            event.stopPropagation(); update(event); finish(true);
+        });
+        handle.addEventListener('pointercancel', () => finish(false));
+        handle.addEventListener('lostpointercapture', () => finish(false));
+        handle.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && drag) {
+                event.preventDefault(); event.stopPropagation(); finish(false); return;
+            }
+            if (!['ArrowLeft', 'ArrowRight'].includes(event.key) || editingId !== null || drag) return;
+            event.preventDefault(); event.stopPropagation();
+            item[side] = resizeMonth(item, side, item[side] + (event.key === 'ArrowRight' ? 1 : -1));
+            persist(); renderChart();
+            const index = state.activities.filter(a => a.start <= state.end && a.end >= state.start).findIndex(a => a.id === item.id);
+            $('chart').children[index + 1]?.querySelector(`.range-handle-${side}`)?.focus();
+        });
+        bar.append(handle);
+    }
 }
 function renderInlineEditor(row, item, isNew = false) {
     row.classList.add('editing');

@@ -449,6 +449,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 .chart-row:focus-visible { outline:3px solid #2563eb; outline-offset:-3px; }
 .chart-row:hover { background:#eff6ff; }
 .bar { cursor:pointer; }
+.range-handle { position:absolute; top:0; bottom:0; width:12px; padding:0; border:0; border-radius:3px; background:rgba(255,255,255,.25); cursor:ew-resize; touch-action:none; }
+.range-handle::after { content:''; position:absolute; top:30%; bottom:30%; left:5px; border-left:2px solid white; }
+.range-handle-start { left:0; }
+.range-handle-end { right:0; }
+.range-handle:focus-visible { outline:2px solid #111827; outline-offset:-2px; }
+.resizing .bar { transition:none; transform:none; }
+.resizing .bar-amount { visibility:hidden; }
 .inline-editor { grid-column:1 / -1; padding:16px 22px; margin:0; cursor:default; background:#eff6ff; }
 .inline-editor input { max-width:220px; }
 .inline-editor button { padding:9px 14px; border:1px solid #d1d5db; border-radius:6px; }
@@ -456,7 +463,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 .editing > .activity-info, .editing > .timeline { display:none; }
 .edit-hint { font-size:13px; color:#6b7280; }
 @media print {
-    .inline-editor, .new-activity-row { display:none !important; }
+    .inline-editor, .new-activity-row, .range-handle { display:none !important; }
     .editing > .activity-info { display:flex; }
     .editing > .timeline { display:grid; }
 }
@@ -486,7 +493,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
         <button type="submit" class="print-btn">Apply range</button>
     </form>
     <p id="status" role="status" aria-live="polite"></p>
-    <p class="edit-hint">Click an activity row to edit its details. Save changes or press Escape to cancel.</p>
+    <p class="edit-hint">Click a row to edit its details. Drag either bar handle to change its range in one-month steps, or focus a handle and use the arrow keys. Press Escape to cancel an edit or drag.</p>
     <button id="add-activity" class="print-btn" type="button">Add activity</button>
     <div class="print-actions">
         <button id="print-button" class="print-btn">
