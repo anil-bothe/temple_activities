@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Activity Timeline</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Inter, Arial, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+    }
+
+    .page {
+        padding: 40px;
+        max-width: 1500px;
+        margin: auto;
+    }
+
+    .header {
+        margin-bottom: 25px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .header p {
+        margin-top: 7px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .chart-card {
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 10px 35px rgba(0,0,0,0.06);
+        overflow: hidden;
+        border: 1px solid #e5e7eb;
+    }
+
+    .chart-scroll {
+        overflow-x: auto;
+    }
+
+    .chart {
+        min-width: 1100px;
+    }
+
+    /* Header */
+
+    .chart-header {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        border-bottom: 1px solid #e5e7eb;
+        background: #fafafa;
+    }
+
+    .activity-title {
+        padding: 18px 22px;
+        font-weight: 600;
+        border-right: 1px solid #e5e7eb;
+    }
+
+    .months {
+        display: grid;
+    }
+
+    .month {
+        text-align: center;
+        padding: 18px 5px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #4b5563;
+        border-right: 1px solid #edf0f4;
+    }
+
+    /* Rows */
+
+    .chart-row {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: 70px;
+        border-bottom: 1px solid #eef0f4;
+    }
+
+    .chart-row:last-child {
+        border-bottom: none;
+    }
+
+    .activity-info {
+        padding: 14px 22px;
+        border-right: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .activity-name {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .sub-activity {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #8a94a6;
+    }
+
+    /* Timeline */
+
+    .timeline {
+        position: relative;
+        display: grid;
+    }
+
+    .timeline-cell {
+        border-right: 1px solid #edf0f4;
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(249,250,251,0.8),
+                rgba(255,255,255,0.8)
+            );
+    }
+
+    .bar {
+        position: absolute;
+        top: 17px;
+        height: 36px;
+
+        border-radius: 9px;
+
+        display: flex;
+        align-items: center;
+
+        padding: 0 14px;
+
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        box-shadow: 0 5px 15px rgba(0,0,0,0.10);
+
+        transition: 0.2s ease;
+        cursor: pointer;
+    }
+
+    .bar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Different bar themes */
+
+    .blue {
+        background: linear-gradient(135deg,#2563eb,#4f46e5);
+    }
+
+    .green {
+        background: linear-gradient(135deg,#059669,#10b981);
+    }
+
+    .purple {
+        background: linear-gradient(135deg,#7c3aed,#a855f7);
+    }
+
+    .orange {
+        background: linear-gradient(135deg,#ea580c,#f59e0b);
+    }
+
+    .pink {
+        background: linear-gradient(135deg,#db2777,#ec4899);
+    }
+
+    .cyan {
+        background: linear-gradient(135deg,#0891b2,#06b6d4);
+    }
+
+    /* Bottom month timeline */
+
+    .bottom-axis {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        background: #f9fafb;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .bottom-label {
+        padding: 15px 22px;
+        font-size: 12px;
+        color: #9ca3af;
+        border-right: 1px solid #e5e7eb;
+    }
+
+    .bottom-months {
+        display: grid;
+    }
+
+    .bottom-month {
+        padding: 14px 5px;
+        text-align: center;
+        border-right: 1px solid #e5e7eb;
+        font-size: 12px;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    @media(max-width: 768px) {
+
+        .page {
+            padding: 15px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+        }
+
+    }
+    /* =========================
+   PRINT BUTTON
+========================= */
+
+.print-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.print-btn {
+    border: none;
+    background: #111827;
+    color: white;
+
+    padding: 11px 20px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.print-btn:hover {
+    background: #374151;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   PRINT SETTINGS
+========================= */
+
+@page {
+    size: A3 landscape;
+    margin: 8mm;
+}
+
+@media print {
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body {
+        background: white !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page {
+        max-width: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* hide print button */
+
+    .print-actions {
+        display: none !important;
+    }
+
+
+    /* Header */
+
+    .header {
+        margin-bottom: 12px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .header p {
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+
+    /* chart */
+
+    .chart-card {
+        box-shadow: none !important;
+        border: 1px solid #d1d5db;
+        border-radius: 0;
+        overflow: visible;
+    }
+
+    .chart-scroll {
+        overflow: visible !important;
+    }
+
+    .chart {
+        min-width: 0 !important;
+        width: 100% !important;
+    }
+
+
+    /*
+        Make left Activity column smaller
+        so more timeline fits on paper
+    */
+
+    .chart-header,
+    .chart-row,
+    .bottom-axis {
+        grid-template-columns: 210px 1fr !important;
+    }
+
+
+    /* Reduce row height */
+
+    .chart-row {
+        min-height: 46px;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .activity-info {
+        padding: 6px 10px;
+    }
+
+    .activity-name {
+        font-size: 10px;
+    }
+
+    .sub-activity {
+        font-size: 9px;
+        margin-top: 2px;
+    }
+
+
+    /* Month headers */
+
+    .activity-title {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .month {
+        padding: 8px 2px;
+        font-size: 9px;
+    }
+
+
+    /* Bars */
+
+    .bar {
+        top: 9px;
+        height: 28px;
+
+        padding: 0 8px;
+
+        font-size: 8px;
+
+        border-radius: 5px;
+
+        box-shadow: none !important;
+    }
+
+    .bar:hover {
+        transform: none;
+    }
+
+
+    /* Bottom timeline */
+
+    .bottom-label {
+        padding: 7px 10px;
+        font-size: 9px;
+    }
+
+    .bottom-month {
+        padding: 7px 2px;
+        font-size: 8px;
+    }
+
+
+    /* Prevent strange breaks */
+
+    .chart-header {
+        break-after: avoid;
+    }
+
+    .bottom-axis {
+        break-before: avoid;
+    }
+}
+
+.controls { display:flex; flex-wrap:wrap; gap:16px; align-items:end; margin:18px 0; }
+fieldset { display:flex; gap:12px; border:1px solid #d1d5db; border-radius:9px; }
+legend, label { font-size:13px; font-weight:600; }
+label { display:flex; flex-direction:column; gap:6px; }
+input, select, button { font:inherit; }
+input, select { padding:9px; border:1px solid #d1d5db; border-radius:6px; background:white; color:#1f2937; }
+button, summary { cursor:pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline:3px solid #2563eb; outline-offset:3px; }
+.editor { background:white; padding:18px; border:1px solid #e5e7eb; border-radius:12px; margin:16px 0; }
+.manage-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid #eee; }
+.manage-row span { flex:1; overflow-wrap:anywhere; }
+.manage-row button, #cancel-edit { padding:8px 12px; border:1px solid #d1d5db; border-radius:6px; background:white; }
+#activity-list { max-height:340px; overflow:auto; }
+#status { font-size:14px; color:#4b5563; }
+.empty { padding:24px; }
+.bar { cursor:default; }
+@media print {
+    .page > :not(.chart-card) { display:none !important; }
+    .chart-header, .chart-row, .bottom-axis { grid-template-columns:170px minmax(0, 1fr) !important; }
+    .month, .bottom-month { overflow-wrap:anywhere; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="header">
+        <h1>Activity Timeline</h1>
+        <p>Activity and sub-activity schedule overview</p>
+    </div>
+
+    <form id="range-form" class="controls">
+        <fieldset><legend>Graph start</legend><label>Month<select id="start-month"></select></label><label>Year<select id="start-year"></select></label></fieldset>
+        <fieldset><legend>Graph end</legend><label>Month<select id="end-month"></select></label><label>Year<select id="end-year"></select></label></fieldset>
+        <button type="submit" class="print-btn">Apply range</button>
+    </form>
+    <p id="status" role="status" aria-live="polite"></p>
+    <details class="editor" id="editor">
+        <summary>Add or edit activities</summary>
+        <form id="activity-form" class="controls">
+            <label>Activity<input id="activity-name" required maxlength="120"></label>
+            <label>Sub-activity<input id="sub-activity" required maxlength="200"></label>
+            <label>Start month<input id="activity-start" type="month" required min="0001-01" max="9999-12"></label>
+            <label>End month<input id="activity-end" type="month" required min="0001-01" max="9999-12"></label>
+            <label>Color<select id="activity-color"><option>blue</option><option>green</option><option>purple</option><option>orange</option><option>pink</option><option>cyan</option></select></label>
+            <button class="print-btn" type="submit" id="save-activity">Add activity</button>
+            <button type="button" id="cancel-edit">Clear</button>
+        </form>
+        <div id="activity-list"></div>
+    </details>
+    <div class="print-actions">
+        <button id="print-button" class="print-btn">
+            Print Table
+        </button>
+    </div>
+
+    <div class="chart-card">
+
+        <div class="chart-scroll">
+            <div class="chart" id="chart"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="app.js"></script>
+</body>
+</html>
