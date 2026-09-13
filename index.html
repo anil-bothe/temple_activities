@@ -460,10 +460,22 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 .inline-editor input { max-width:220px; }
 .inline-editor button { padding:9px 14px; border:1px solid #d1d5db; border-radius:6px; }
 .inline-error { width:100%; color:#b91c1c; margin:0; }
+.color-picker { display:block; padding:10px; }
+.color-grid { display:grid; grid-template-columns:repeat(3, 36px); gap:8px; }
+.inline-editor .color-swatch { width:36px; height:36px; padding:0; border:2px solid transparent; color:white; font-size:20px; }
+.color-swatch[aria-pressed="true"] { border-color:#111827; box-shadow:0 0 0 2px white; }
+.activity-info { position:relative; padding-left:56px; }
+.row-order { position:absolute; left:10px; top:50%; transform:translateY(-50%); width:32px; height:36px; border:1px solid #d1d5db; border-radius:5px; background:white; color:#374151; font-size:24px; cursor:grab; touch-action:none; user-select:none; }
+.row-dragging { opacity:.5; }
+.row-dragging .row-order { cursor:grabbing; }
+.drop-before { box-shadow:inset 0 3px #2563eb; }
+.drop-after { box-shadow:inset 0 -3px #2563eb; }
 .editing > .activity-info, .editing > .timeline { display:none; }
 .edit-hint { font-size:13px; color:#6b7280; }
 @media print {
     .inline-editor, .new-activity-row, .range-handle { display:none !important; }
+    .row-order { display:none !important; }
+    .activity-info { padding-left:10px; }
     .editing > .activity-info { display:flex; }
     .editing > .timeline { display:grid; }
 }
@@ -493,9 +505,12 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
         <button type="submit" class="print-btn">Apply range</button>
     </form>
     <p id="status" role="status" aria-live="polite"></p>
-    <p class="edit-hint">Click a row to edit its details. Drag either bar handle to change its range in one-month steps, or focus a handle and use the arrow keys. Press Escape to cancel an edit or drag.</p>
+    <p class="edit-hint">Click a row to edit its details and choose a color. Drag the ⠿ handle to reorder rows. Drag either bar handle to change its range in one-month steps, or focus a handle and use the arrow keys. Press Escape to cancel an edit or drag.</p>
     <button id="add-activity" class="print-btn" type="button">Add activity</button>
-    <div class="print-actions">
+    <div class="print-actions" style="gap:10px; flex-wrap:wrap">
+        <button id="export-csv" class="print-btn" type="button">Export CSV</button>
+        <button id="import-csv" class="print-btn" type="button">Import CSV</button>
+        <input id="csv-file" type="file" accept=".csv,text/csv" hidden>
         <button id="print-button" class="print-btn">
             Print Table
         </button>
@@ -513,5 +528,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-v
 
 
 <script src="app.js"></script>
+<script src="csv.js"></script>
 </body>
 </html>

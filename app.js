@@ -4,7 +4,7 @@ const initialActivities = [
     {
         activity: "Exterior",
         subActivity: "Stone work",
-        amount: 2999,
+        amount: "1L",
         endMonth: 1,
         text: "Stone work",
         color: "blue"
@@ -12,7 +12,7 @@ const initialActivities = [
     {
         activity: "Exterior",
         subActivity: "Exterior lighting",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Exterior lighting",
         color: "blue"
@@ -20,7 +20,7 @@ const initialActivities = [
     {
         activity: "Exterior",
         subActivity: "GRC production work",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "GRC production work",
         color: "blue"
@@ -28,7 +28,7 @@ const initialActivities = [
     {
         activity: "Exterior",
         subActivity: "GRC installation",
-        amount: 2999,
+        amount: "1L",
         endMonth: 3,
         text: "GRC installation",
         color: "blue"
@@ -38,7 +38,7 @@ const initialActivities = [
     {
         activity: "Fire safety",
         subActivity: "Overhead Tank",
-        amount: 2999,
+        amount: "1L",
         endMonth: 1,
         text: "Overhead Tank",
         color: "orange"
@@ -46,7 +46,7 @@ const initialActivities = [
     {
         activity: "Fire safety",
         subActivity: "Hydrant Line",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Hydrant Line",
         color: "orange"
@@ -54,7 +54,7 @@ const initialActivities = [
     {
         activity: "Fire safety",
         subActivity: "Fire alarm systems - detectors",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Fire alarm systems - detectors",
         color: "orange"
@@ -64,7 +64,7 @@ const initialActivities = [
     {
         activity: "CCTV",
         subActivity: "CCTV conduits & wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "CCTV conduits & wiring",
         color: "purple"
@@ -72,7 +72,7 @@ const initialActivities = [
     {
         activity: "CCTV",
         subActivity: "Live Streaming wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Live Streaming wiring",
         color: "purple"
@@ -82,7 +82,7 @@ const initialActivities = [
     {
         activity: "AC",
         subActivity: "Copper Piping",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Copper Piping",
         color: "cyan"
@@ -90,7 +90,7 @@ const initialActivities = [
     {
         activity: "AC",
         subActivity: "Electrical wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Electrical wiring",
         color: "cyan"
@@ -100,7 +100,7 @@ const initialActivities = [
     {
         activity: "Wall cladding",
         subActivity: "Material Selection",
-        amount: 2999,
+        amount: "1L",
         endMonth: 1,
         text: "Material Selection",
         color: "green"
@@ -108,7 +108,7 @@ const initialActivities = [
     {
         activity: "Wall cladding",
         subActivity: "Staircase Block",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Staircase Block",
         color: "green"
@@ -116,7 +116,7 @@ const initialActivities = [
     {
         activity: "Wall cladding",
         subActivity: "Deity service area",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Deity service area",
         color: "green"
@@ -124,7 +124,7 @@ const initialActivities = [
     {
         activity: "Wall cladding",
         subActivity: "Rural development area",
-        amount: 2999,
+        amount: "1L",
         endMonth: 3,
         text: "Rural development area",
         color: "green"
@@ -132,7 +132,7 @@ const initialActivities = [
     {
         activity: "Wall cladding",
         subActivity: "Mezzanine",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "Mezzanine",
         color: "green"
@@ -140,7 +140,7 @@ const initialActivities = [
     {
         activity: "Wall cladding",
         subActivity: "Temple Hall",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "Temple Hall",
         color: "green"
@@ -150,7 +150,7 @@ const initialActivities = [
     {
         activity: "Flooring",
         subActivity: "Material Selection",
-        amount: 2999,
+        amount: "1L",
         endMonth: 1,
         text: "Material Selection",
         color: "pink"
@@ -158,7 +158,7 @@ const initialActivities = [
     {
         activity: "Flooring",
         subActivity: "Pujari Rooms - library",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Pujari Rooms - library",
         color: "pink"
@@ -166,7 +166,7 @@ const initialActivities = [
     {
         activity: "Flooring",
         subActivity: "Deity Service area",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Deity Service area",
         color: "pink"
@@ -174,7 +174,7 @@ const initialActivities = [
     {
         activity: "Flooring",
         subActivity: "Rural development area",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Rural development area",
         color: "pink"
@@ -182,7 +182,7 @@ const initialActivities = [
     {
         activity: "Flooring",
         subActivity: "Mezzanine",
-        amount: 2999,
+        amount: "1L",
         endMonth: 3,
         text: "Mezzanine",
         color: "pink"
@@ -190,7 +190,7 @@ const initialActivities = [
     {
         activity: "Flooring",
         subActivity: "Temple Hall",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "Temple Hall",
         color: "pink"
@@ -200,7 +200,7 @@ const initialActivities = [
     {
         activity: "Sound",
         subActivity: "Conduits",
-        amount: 2999,
+        amount: "1L",
         endMonth: 1,
         text: "Conduits",
         color: "purple"
@@ -208,7 +208,7 @@ const initialActivities = [
     {
         activity: "Sound",
         subActivity: "Wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Wiring",
         color: "purple"
@@ -218,7 +218,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "False ceiling design",
-        amount: 2999,
+        amount: "1L",
         endMonth: 1,
         text: "False ceiling design",
         color: "blue"
@@ -226,7 +226,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "AC ducting",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "AC ducting",
         color: "blue"
@@ -234,7 +234,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Sprinkler lines",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Sprinkler lines",
         color: "blue"
@@ -242,7 +242,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Fire alarms wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Fire alarms wiring",
         color: "blue"
@@ -250,7 +250,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Electrical",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Electrical",
         color: "blue"
@@ -258,7 +258,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Sound - wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "Sound - wiring",
         color: "blue"
@@ -266,7 +266,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "CCTV - wiring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 2,
         text: "CCTV - wiring",
         color: "blue"
@@ -274,7 +274,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "False ceiling - POP / sound proofing",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "False ceiling - POP / sound proofing",
         color: "blue"
@@ -282,7 +282,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Flooring",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "Flooring",
         color: "blue"
@@ -290,7 +290,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Wall Cladding",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "Wall Cladding",
         color: "blue"
@@ -298,7 +298,7 @@ const initialActivities = [
     {
         activity: "Prasadam Hall",
         subActivity: "Wall sound proofing",
-        amount: 2999,
+        amount: "1L",
         endMonth: 4,
         text: "Wall sound proofing",
         color: "blue"
@@ -341,8 +341,8 @@ try {
             new Set(saved.activities.map(a => a.id)).size !== saved.activities.length) throw new Error('Invalid saved data');
         saved.activities = saved.activities.map(item => ({
             ...item,
-            amount: item.amount === "" || (Number.isFinite(item.amount) && item.amount >= 0)
-                ? item.amount
+            amount: typeof item.amount === "string" || (Number.isFinite(item.amount) && item.amount >= 0)
+                ? String(item.amount)
                 : (initialActivities[Number(item.id.replace('initial-', ''))]?.amount ?? "")
         }));
         state = saved;
@@ -373,8 +373,10 @@ function element(tag, className, text) {
 function setupRange() {
     for (const side of ['start', 'end']) {
         const monthSelect = $(`${side}-month`);
+        monthSelect.replaceChildren();
         monthNames.forEach((name, index) => monthSelect.add(new Option(name, index)));
         const yearSelect = $(`${side}-year`);
+        yearSelect.replaceChildren();
         const years = new Set(Array.from({length: 201}, (_, i) => year - 100 + i).filter(y => y >= 1 && y <= 9999));
         [state.start, state.end, ...state.activities.flatMap(a => [a.start, a.end])].forEach(index => years.add(Math.floor(index / 12)));
         [...years].sort((a,b) => a-b).forEach(y => yearSelect.add(new Option(y, y)));
@@ -402,12 +404,14 @@ function renderChart() {
     if (editingId === 'new') {
         const draftRow = element('div', 'chart-row new-activity-row');
         chart.append(draftRow);
-        renderInlineEditor(draftRow, {activity:'', subActivity:'', amount:'', start:state.start, end:state.end, color:'blue'}, true);
+        renderInlineEditor(draftRow, {activity:'', subActivity:'', amount:'1L', start:state.start, end:state.end, color:'blue'}, true);
     }
     visible.forEach(item => {
         const row = element('div', 'chart-row');
         const info = element('div', 'activity-info');
         info.append(element('div', 'activity-name', item.activity), element('div', 'sub-activity', item.subActivity));
+        row.dataset.activityId = item.id;
+        attachRowDrag(info, row, item);
         const timeline = element('div', 'timeline');
         timeline.style.gridTemplateColumns = `repeat(${count}, minmax(0, 1fr))`;
         months.forEach(() => timeline.append(element('div', 'timeline-cell')));
@@ -453,6 +457,95 @@ function renderChart() {
     if (!visible.length) chart.append(element('div', 'empty', 'No activities scheduled in this range.'));
     axis('bottom-axis', 'Timeline (inclusive months)', 'bottom-months', 'bottom-month');
     notice(`${visible.length} of ${state.activities.length} activities shown. Data is saved in this browser.`);
+}
+function reorderActivity(id, position) {
+    const visible = state.activities.filter(a => a.start <= state.end && a.end >= state.start);
+    const from = visible.findIndex(a => a.id === id);
+    if (from < 0) return;
+    const to = Math.max(0, Math.min(position, visible.length - 1));
+    if (from === to) return;
+    visible.splice(to, 0, visible.splice(from, 1)[0]);
+    let index = 0;
+    state.activities = state.activities.map(a => a.start <= state.end && a.end >= state.start ? visible[index++] : a);
+    persist();
+}
+function attachRowDrag(info, row, item) {
+    const handle = element('button', 'row-order', '⠿');
+    handle.type = 'button';
+    handle.title = 'Drag to reorder. Keyboard: use Up/Down.';
+    handle.setAttribute('aria-label', `Reorder ${item.activity} / ${item.subActivity}. Drag or use Up and Down arrow keys.`);
+    handle.addEventListener('click', event => event.stopPropagation());
+    info.append(handle);
+    let drag = null;
+    let frame = null;
+    function clearMarkers() {
+        $('chart').querySelectorAll('.drop-before, .drop-after').forEach(node => node.classList.remove('drop-before', 'drop-after'));
+    }
+    function preview() {
+        if (!drag) return;
+        clearMarkers();
+        const others = [...$('chart').querySelectorAll('.chart-row')].filter(node => node !== row);
+        const before = others.findIndex(node => {
+            const rect = node.getBoundingClientRect();
+            return drag.y < rect.top + rect.height / 2;
+        });
+        drag.position = before < 0 ? others.length : before;
+        if (before >= 0) others[before].classList.add('drop-before');
+        else others.at(-1)?.classList.add('drop-after');
+    }
+    function scroll() {
+        if (!drag) return;
+        const speed = drag.y < 70 ? -12 : drag.y > window.innerHeight - 70 ? 12 : 0;
+        if (speed) { window.scrollBy(0, speed); preview(); }
+        frame = requestAnimationFrame(scroll);
+    }
+    function finish(commit) {
+        if (!drag) return;
+        const current = drag;
+        drag = null;
+        cancelAnimationFrame(frame);
+        if (handle.hasPointerCapture(current.pointerId)) handle.releasePointerCapture(current.pointerId);
+        clearMarkers();
+        row.classList.remove('row-dragging');
+        suppressRowClickUntil = Date.now() + 300;
+        if (commit) reorderActivity(item.id, current.position);
+        renderChart();
+        [...$('chart').querySelectorAll('.chart-row')].find(node => node.dataset.activityId === item.id)?.querySelector('.row-order')?.focus();
+        notice(commit ? `Row order saved for ${item.subActivity}.` : 'Row move canceled.');
+    }
+    handle.addEventListener('pointerdown', event => {
+        event.stopPropagation();
+        if (event.button !== 0 || drag) return;
+        if (editingId !== null) { notice('Save or cancel your edit before moving rows.'); return; }
+        event.preventDefault();
+        const visible = state.activities.filter(a => a.start <= state.end && a.end >= state.start);
+        drag = {pointerId:event.pointerId, y:event.clientY, position:visible.findIndex(a => a.id === item.id)};
+        handle.setPointerCapture(event.pointerId);
+        handle.focus();
+        row.classList.add('row-dragging');
+        frame = requestAnimationFrame(scroll);
+    });
+    handle.addEventListener('pointermove', event => {
+        if (!drag || event.pointerId !== drag.pointerId) return;
+        drag.y = event.clientY; preview();
+    });
+    handle.addEventListener('pointerup', event => {
+        if (!drag || event.pointerId !== drag.pointerId) return;
+        event.stopPropagation(); finish(true);
+    });
+    handle.addEventListener('pointercancel', () => finish(false));
+    handle.addEventListener('lostpointercapture', () => finish(false));
+    handle.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && drag) {
+            event.preventDefault(); event.stopPropagation(); finish(false); return;
+        }
+        if (!['ArrowUp', 'ArrowDown'].includes(event.key) || drag || editingId !== null) return;
+        event.preventDefault(); event.stopPropagation();
+        const visible = state.activities.filter(a => a.start <= state.end && a.end >= state.start);
+        reorderActivity(item.id, visible.findIndex(a => a.id === item.id) + (event.key === 'ArrowUp' ? -1 : 1));
+        renderChart();
+        [...$('chart').querySelectorAll('.chart-row')].find(node => node.dataset.activityId === item.id)?.querySelector('.row-order')?.focus();
+    });
 }
 function resizeMonth(item, side, value) {
     return side === 'start'
@@ -538,16 +631,39 @@ function renderInlineEditor(row, item, isNew = false) {
         if (key !== 'amount') input.required = true;
         if (type === 'month') { input.min = '0001-01'; input.max = '9999-12'; }
         if (type === 'text') input.maxLength = key === 'activity' ? 120 : 200;
-        if (key === 'amount') { input.min = '0'; input.step = '0.01'; input.placeholder = 'Optional'; }
+        if (key === 'amount') { input.maxLength = 40; input.placeholder = 'e.g. 1L, 4.4L, 49K'; }
         fields[key] = input;
         label.append(input); form.append(label);
     }
     field('activity', 'Activity', 'text', item.activity);
     field('subActivity', 'Sub-activity', 'text', item.subActivity);
-    field('amount', 'Amount (Rs.)', 'number', item.amount ?? '');
+    field('amount', 'Amount (Rs.)', 'text', item.amount ?? '');
     field('start', 'Start month', 'month', monthValue(item.start));
     field('end', 'End month', 'month', monthValue(item.end));
-    field('color', 'Color', 'select', item.color);
+    fields.color = {value: item.color};
+    const palette = element('fieldset', 'color-picker');
+    const colorLegend = element('legend', '', `Color: ${item.color}`);
+    const grid = element('div', 'color-grid');
+    palette.append(colorLegend, grid);
+    const swatches = [];
+    colors.forEach(color => {
+        const swatch = element('button', `color-swatch ${color}`, color === item.color ? '✓' : '');
+        swatch.type = 'button';
+        swatch.title = color;
+        swatch.setAttribute('aria-label', color);
+        swatch.setAttribute('aria-pressed', String(color === item.color));
+        swatch.addEventListener('click', () => {
+            fields.color.value = color;
+            colorLegend.textContent = `Color: ${color}`;
+            swatches.forEach(({button, value}) => {
+                button.setAttribute('aria-pressed', String(value === color));
+                button.textContent = value === color ? '✓' : '';
+            });
+        });
+        swatches.push({button: swatch, value: color});
+        grid.append(swatch);
+    });
+    form.append(palette);
     const error = element('p', 'inline-error');
     error.setAttribute('role', 'alert');
     const save = element('button', 'print-btn', isNew ? 'Add activity' : 'Save changes');
@@ -566,10 +682,10 @@ function renderInlineEditor(row, item, isNew = false) {
         const subActivity = fields.subActivity.value.trim();
         const start = monthIndex(fields.start.value);
         const end = monthIndex(fields.end.value);
-        const amount = fields.amount.value === '' ? '' : Number(fields.amount.value);
+        const amount = fields.amount.value.trim();
         if (!activity || !subActivity || !validRange(start, end) ||
-            (amount !== '' && (!Number.isFinite(amount) || amount < 0))) {
-            error.textContent = 'Enter both names, a valid month range, and a non-negative amount (or leave it blank).';
+            amount.length > 40) {
+            error.textContent = 'Enter both names, a valid month range, and an amount of up to 40 characters (or leave it blank).';
             return;
         }
         const updated = {...item, id: isNew ? `activity-${Date.now()}-${Math.random().toString(36).slice(2)}` : item.id,
