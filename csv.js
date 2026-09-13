@@ -60,7 +60,7 @@ function importCSV(text) {
         if (![activity, subActivity, amount, startValue, endValue, colorValue].some(Boolean)) return;
         const start = monthIndex(startValue), end = monthIndex(endValue);
         const color = colorValue.toLowerCase() || 'blue';
-        if (!activity || activity.length > 120 || !subActivity || subActivity.length > 200 || amount.length > 40 || !validRange(start, end) || !colors.includes(color)) {
+        if (!activity || activity.length > 120 || !subActivity || subActivity.length > 200 || amount.length > 40 || !validRange(start, end) || !colorSettings(color)) {
             throw new Error(`Row ${index + 2}: check names, amount (up to 40 characters), months (YYYY-MM), and color. No data was imported.`);
         }
         activities.push({id: `import-${Date.now()}-${index}`, activity, subActivity, amount, start, end, color});

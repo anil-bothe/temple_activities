@@ -310,6 +310,23 @@ const initialActivities = [
 const STORAGE_KEY = 'temple-activity-timeline-v1';
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const colors = ['blue', 'green', 'purple', 'orange', 'pink', 'cyan'];
+const colorThemes = {
+    blue: ['#2563eb', '#4f46e5'], green: ['#059669', '#10b981'],
+    purple: ['#7c3aed', '#a855f7'], orange: ['#ea580c', '#f59e0b'],
+    pink: ['#db2777', '#ec4899'], cyan: ['#0891b2', '#06b6d4']
+};
+function colorSettings(value) {
+    if (typeof value !== 'string') return null;
+    if (Object.hasOwn(colorThemes, value)) return {start:colorThemes[value][0], end:colorThemes[value][1], angle:135};
+    if (/^#[0-9a-f]{6}$/i.test(value)) return {start:value, end:value, angle:135};
+    const match = /^linear-gradient\((\d{1,3})deg,\s*(#[0-9a-f]{6}),\s*(#[0-9a-f]{6})\)$/i.exec(value);
+    return match && Number(match[1]) <= 360 ? {start:match[2], end:match[3], angle:Number(match[1])} : null;
+}
+function colorBackground(value) {
+    const settings = colorSettings(value);
+    return settings ? `linear-gradient(${settings.angle}deg, ${settings.start}, ${settings.end})` : '';
+}
+
 const $ = id => document.getElementById(id);
 const monthIndex = value => {
     if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(value)) return NaN;
@@ -337,7 +354,7 @@ try {
     if (raw !== null) {
         const saved = JSON.parse(raw);
         if (!saved || !validRange(saved.start, saved.end) || saved.end - saved.start >= 60 || !Array.isArray(saved.activities) ||
-            !saved.activities.every(a => a && typeof a.id === 'string' && typeof a.activity === 'string' && a.activity.trim() && typeof a.subActivity === 'string' && a.subActivity.trim() && colors.includes(a.color) && validRange(a.start, a.end)) ||
+            !saved.activities.every(a => a && typeof a.id === 'string' && typeof a.activity === 'string' && a.activity.trim() && typeof a.subActivity === 'string' && a.subActivity.trim() && colorSettings(a.color) && validRange(a.start, a.end)) ||
             new Set(saved.activities.map(a => a.id)).size !== saved.activities.length) throw new Error('Invalid saved data');
         saved.activities = saved.activities.map(item => ({
             ...item,
@@ -417,7 +434,8 @@ function renderChart() {
         months.forEach(() => timeline.append(element('div', 'timeline-cell')));
         const left = Math.max(item.start, state.start) - state.start;
         const span = Math.min(item.end, state.end) - Math.max(item.start, state.start) + 1;
-        const bar = element('div', `bar ${item.color}`, item.subActivity);
+        const bar = element('div', 'bar', item.subActivity);
+        bar.style.background = colorBackground(item.color);
         bar.title = `${item.subActivity}: ${monthLabel(item.start)} – ${monthLabel(item.end)}`;
         bar.style.left = `calc(${left / count * 100}% + 6px)`;
         bar.style.width = `calc(${span / count * 100}% - 12px)`;
@@ -617,6 +635,52 @@ function attachRangeHandles(bar, timeline, row, item, count) {
         bar.append(handle);
     }
 }
+function openColorPopup(value, apply) {
+    const settings = colorSettings(value) || colorSettings('blue');
+    const dialog = element('dialog', 'gradient-dialog');
+    dialog.setAttribute('aria-label', 'Choose bar color and gradient');
+    dialog.append(element('h2', '', 'Color & gradient'));
+    const controls = element('div', 'gradient-controls');
+    function input(labelText, type, value) {
+        const label = element('label', '', labelText);
+        const control = element('input');
+        control.type = type; control.value = value;
+        label.append(control); controls.append(label);
+        return control;
+    }
+    const start = input('Start color', 'color', settings.start);
+    const end = input('End color', 'color', settings.end);
+    const angle = input('Direction', 'range', settings.angle);
+    angle.min = '0'; angle.max = '360'; angle.step = '1';
+    const degrees = element('output', 'gradient-degrees');
+    controls.append(degrees);
+    const solidLabel = element('label', 'solid-toggle', 'Solid color');
+    const solid = element('input');
+    solid.type = 'checkbox'; solid.checked = settings.start === settings.end;
+    solidLabel.prepend(solid); controls.append(solidLabel);
+    const preview = element('div', 'gradient-preview');
+    preview.setAttribute('aria-label', 'Color preview');
+    function selected() {
+        return solid.checked ? start.value : `linear-gradient(${angle.value}deg, ${start.value}, ${end.value})`;
+    }
+    function update() {
+        end.disabled = solid.checked; angle.disabled = solid.checked;
+        degrees.textContent = `${angle.value}°`;
+        preview.style.background = colorBackground(selected());
+    }
+    [start, end, angle, solid].forEach(control => control.addEventListener('input', update));
+    const actions = element('div', 'gradient-actions');
+    const use = element('button', 'print-btn', 'Use color');
+    use.type = 'button';
+    use.addEventListener('click', () => { apply(selected()); dialog.close(); });
+    const cancel = element('button', '', 'Cancel');
+    cancel.type = 'button'; cancel.addEventListener('click', () => dialog.close());
+    actions.append(use, cancel);
+    dialog.append(controls, preview, actions);
+    dialog.addEventListener('close', () => dialog.remove());
+    document.body.append(dialog);
+    update(); dialog.showModal();
+}
 function renderInlineEditor(row, item, isNew = false) {
     row.classList.add('editing');
     const form = element('form', 'controls inline-editor');
@@ -641,29 +705,16 @@ function renderInlineEditor(row, item, isNew = false) {
     field('start', 'Start month', 'month', monthValue(item.start));
     field('end', 'End month', 'month', monthValue(item.end));
     fields.color = {value: item.color};
-    const palette = element('fieldset', 'color-picker');
-    const colorLegend = element('legend', '', `Color: ${item.color}`);
-    const grid = element('div', 'color-grid');
-    palette.append(colorLegend, grid);
-    const swatches = [];
-    colors.forEach(color => {
-        const swatch = element('button', `color-swatch ${color}`, color === item.color ? '✓' : '');
-        swatch.type = 'button';
-        swatch.title = color;
-        swatch.setAttribute('aria-label', color);
-        swatch.setAttribute('aria-pressed', String(color === item.color));
-        swatch.addEventListener('click', () => {
-            fields.color.value = color;
-            colorLegend.textContent = `Color: ${color}`;
-            swatches.forEach(({button, value}) => {
-                button.setAttribute('aria-pressed', String(value === color));
-                button.textContent = value === color ? '✓' : '';
-            });
-        });
-        swatches.push({button: swatch, value: color});
-        grid.append(swatch);
-    });
-    form.append(palette);
+    const colorButton = element('button', 'choose-color', 'Choose color / gradient');
+    colorButton.type = 'button';
+    const colorSample = element('span', 'color-sample');
+    colorSample.style.background = colorBackground(item.color);
+    colorButton.prepend(colorSample);
+    colorButton.addEventListener('click', () => openColorPopup(fields.color.value, value => {
+        fields.color.value = value;
+        colorSample.style.background = colorBackground(value);
+    }));
+    form.append(colorButton);
     const error = element('p', 'inline-error');
     error.setAttribute('role', 'alert');
     const save = element('button', 'print-btn', isNew ? 'Add activity' : 'Save changes');
